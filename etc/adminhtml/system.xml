@@ -1,0 +1,66 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+   <system>
+       <tab id="gameball_tab" translate="label" sortOrder="1">
+           <label>Gameball</label>
+       </tab>
+       <section id="gameball_keys" translate="label" type="text" sortOrder="100" showInDefault="1"
+                showInWebsite="1" showInStore="1">
+           <label>Gameball</label>
+           <tab>customer</tab>
+           <resource>GbPlugin_Integration::config</resource>
+           <group id="gameball" translate="label" type="text" sortOrder="10" showInDefault="1"
+                  showInWebsite="1" showInStore="1">
+               <label>Gameball</label>
+
+               <field id="api_key" translate="label" type="text" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>API Key</label>
+               </field>
+
+               <field id="transaction_key" translate="label" type="text" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>Transaction Key</label>
+               </field>
+
+               <field id="view_product" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>View Product Page</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+               <field id="add_to_cart" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>Add To Cart</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+               <field id="view_cart" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>View Cart</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+               <field id="review" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>Review</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+               <field id="place_order" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>Place Order</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+               <field id="remove_from_cart" translate="label" type="select" showInDefault="1" canRestore="1"
+                      showInWebsite="1" showInStore="1">
+                   <label>Remove From Cart</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+
+
+           </group>
+       </section>
+   </system>
+</config>

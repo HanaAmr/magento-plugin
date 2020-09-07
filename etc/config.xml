@@ -1,0 +1,12 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+   <default>
+       <gameball_keys>
+           <gameball>
+               <view_product>1</view_product>
+               <review>1</review>
+               <place_order>1</place_order>
+           </gameball>
+       </gameball_keys>
+   </default>
+</config>

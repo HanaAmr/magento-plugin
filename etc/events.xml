@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_after">
+        <observer name="Gameball_sales_order_save_after" instance="GbPlugin\Integration\Observer\PlaceOrder\PlaceOrder" />
+    </event>
+     <event name="review_save_after">
+        <observer name="Gameball_review_save_after" instance="GbPlugin\Integration\Observer\ProductReview\ProductReview" />
+    </event>
+    <event name="customer_save_after_data_object">
+        <observer name="Gameball_customer_save_after_data_object" instance="GbPlugin\Integration\Observer\CustomerSave\CustomerSave" />
+    </event>
+    </config>
