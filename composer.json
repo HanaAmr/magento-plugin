@@ -3,6 +3,7 @@
     "type": "magento2-module",
     "description":"Gameball Extension - Gamification, Customer Loyalty and Retention ",
     "version":"1.0.4",
+    "minimum-stability": "alpha",
     "require": {
         "iskndraniii73/php-sdk-trail": "^0.1.0@alpha"
     },
