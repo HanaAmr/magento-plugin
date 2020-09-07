@@ -1,6 +1,6 @@
 
 # Gameball at Magento !!!!
-> This is our Gameball.
+> This is our Gameball......
 
 ## Table of contents
 * [Technologies](#technologies)
