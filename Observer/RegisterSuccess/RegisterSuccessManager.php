@@ -3,7 +3,7 @@ declare (strict_types = 1);
 
 namespace GbPlugin\Integration\Observer\RegisterSuccess;
 
-require_once BP . '/app/code/GbPlugin/vendor/autoload.php';
+require_once BP . '/vendor/autoload.php';
 
 use Exception;
 

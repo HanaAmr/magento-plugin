@@ -2,7 +2,7 @@
 
 namespace GbPlugin\Integration\Observer\ViewProduct;
 
-require_once BP . '/app/code/GbPlugin/vendor/autoload.php';
+require_once BP . '/vendor/autoload.php';
 
 use Exception;
 

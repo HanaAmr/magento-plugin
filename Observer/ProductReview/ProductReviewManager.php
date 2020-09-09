@@ -4,7 +4,7 @@ namespace GbPlugin\Integration\Observer\ProductReview;
 
 use Exception;
 
-require_once BP . '/app/code/GbPlugin/vendor/autoload.php';
+require_once BP . '/vendor/autoload.php';
 
 use Magento\Review\Model\Review;
 

@@ -3,7 +3,7 @@
 namespace GbPlugin\Integration\Observer\ViewCart;
 use Exception;
 
-require_once BP . '/app/code/GbPlugin/vendor/autoload.php';
+require_once BP . '/vendor/autoload.php';
 
 
 class ViewCartManager
