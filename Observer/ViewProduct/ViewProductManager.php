@@ -15,22 +15,26 @@ class ViewProductManager
     private $categoryFactory;
     protected $gbEnableChecker;
 
-    public function __construct($product,$customerSession,$clientKeys,$categoryFactory, $gbEnableChecker)
+    public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker) 
     {
-        $this->product = $product;  
-        $this->customerSession= $customerSession;
+        $this->customerSession = $customerSession;
         $this->clientKeys = $clientKeys;
-        $this->categoryFactory= $categoryFactory;
+        $this->categoryFactory = $categoryFactory;
         $this->gbEnableChecker = $gbEnableChecker;
     }
-
-    public function execute()
+    
+    public function execute($product)
     {
         try {
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/ViewProduct.log');
             $logger = new \Zend\Log\Logger();
             $logger->addWriter($writer);                
            
+            $this->product = $product;
             $customerId = $this->customerSession->getCustomer()->getId();
 
             if ($customerId) {
@@ -97,7 +101,7 @@ class ViewProductManager
                 $logger->info($this->clientKeys->getApiKey());
 
 
-                if ($gbEnable == "1" && $this->clientKeys->getViewProduct()== 1) {
+                if ($gbEnable === "1" && $this->clientKeys->getViewProduct()== 1) {
                     $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
 
                     $playerRequest = new \Gameball\Models\PlayerRequest();

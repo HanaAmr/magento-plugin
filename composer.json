@@ -1,16 +1,10 @@
 {
-    "name": "hanaamr/magento-plugin",
+    "name": "gb/magento_plugin",
     "type": "magento2-module",
     "description":"Gameball Extension - Gamification, Customer Loyalty and Retention ",
-    "version":"1.0.4",
-    "minimum-stability": "alpha",
+    "version":"1.0.0",
+    "minimum-stability": "dev",
     "require": {
-        "iskndraniii73/php-sdk-trail": "^0.1.0@alpha"
-    },
-    "autoload": {
-      "files": [ "registration.php" ],
-      "psr-4": {
-        "GbPlugin\\Integration\\": ""
-      }
+        "gameball/gameball-php": "dev-master"
     }
 }

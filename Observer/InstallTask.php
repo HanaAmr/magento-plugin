@@ -25,7 +25,7 @@ class InstallTask implements \Magento\Framework\Event\ObserverInterface
             $logger->addWriter($writer);
 
             
-            $url = 'https://gb-api.azurewebsites.net/api/v1.0/Bots/Task?code=install_magento_plugin';
+            $url = 'https://api.gameball.co/api/v1.0/Bots/Task?code=install_magento_plugin';
             $headers = ["APIKey" => $this->clientKeys->getApiKey()];
 
             $this->curl->setHeaders($headers);

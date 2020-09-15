@@ -15,17 +15,18 @@ class OrderRefundManager
     private $creditMemo;
     protected $clientKeys;
     protected $gbEnableChecker;
-    
-    public function __construct($creditmemo, $clientKeys, $gbEnableChecker)
-    {
-        $this->creditMemo = $creditmemo;
+
+    public function __construct(   
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker
+    ){
         $this->clientKeys = $clientKeys;
         $this->gbEnableChecker = $gbEnableChecker;
     }
 
-    public function execute()
+    public function execute($creditMemo)
     {
-
+        $this->creditMemo = $creditMemo;
         $order = $this->creditMemo->getOrder();
         $orderId = $order->getId();
         $creditMemoId = $this->creditMemo->getIncrementId();
@@ -77,7 +78,7 @@ class OrderRefundManager
                     $logger->info($this->clientKeys->getApiKey());
     
 
-                    if ($gbEnable == "1") {
+                    if ($gbEnable === "1") {
                         $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
         
                         $playerUniqueId = $customerId;

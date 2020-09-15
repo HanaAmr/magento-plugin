@@ -4,19 +4,17 @@ namespace GbPlugin\Integration\Observer\OrderRefund;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use GbPlugin\Integration\Observer\OrderRefund\OrderRefundManager;
 
 class OrderRefund implements ObserverInterface
 {
-    protected $clientKeys;
-    protected $gbEnableChecker;
-
-    public function __construct(   
-        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker
-    ){
-        $this->clientKeys = $clientKeys;
-        $this->gbEnableChecker = $gbEnableChecker;
+     
+    public function __construct(
+        OrderRefundManager $OrderRefundManager
+    ) {
+        $this->OrderRefundManager = $OrderRefundManager;
     }
+
     /**
      * Below is the method that will fire whenever the event runs!
      *
@@ -25,9 +23,9 @@ class OrderRefund implements ObserverInterface
 
     public function execute(Observer $observer)
     {
-        $creditmemo = $observer->getEvent()->getCreditmemo();
-        $manager = new OrderRefundManager($creditmemo,$this->clientKeys, $this->gbEnableChecker);
-        $manager->execute();
+        $creditMemo = $observer->getEvent()->getCreditmemo();
+        $this->OrderRefundManager->execute($creditMemo);
+       
     }
 
 }

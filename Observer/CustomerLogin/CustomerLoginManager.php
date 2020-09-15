@@ -12,17 +12,18 @@ class CustomerLoginManager
     protected $clientKeys;
     protected $customerModel;
 
-
-    public function __construct($customer,$clientKeys,$customerModel)
-    {
-        $this->customer = $customer;
-        $this->clientKeys = $clientKeys;
-        $this->customerModel = $customerModel;
-    }
-
-    public function execute()
+    public function __construct(
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \Magento\Customer\Model\Customer $customerModel)
+        {
+            $this->clientKeys = $clientKeys;
+            $this->customerModel = $customerModel;
+        }
+    
+    public function execute($customer)
     {
         try {
+            $this->customer = $customer;
 
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/CustomerLogin.log');
             $logger = new \Zend\Log\Logger();

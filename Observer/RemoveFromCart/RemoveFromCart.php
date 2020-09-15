@@ -14,21 +14,13 @@ class RemoveFromCart implements ObserverInterface
     protected $productFactory;
     protected $GbEnableChecker;
 
+    
     public function __construct(   
-        \Magento\Customer\Model\Session $customerSession,
-        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $GbEnableChecker
-    ){
-        $this->customerSession = $customerSession;
-        $this->clientKeys = $clientKeys;
-        $this->categoryFactory = $categoryFactory;
-        $this->productFactory = $productFactory;
-        $this->GbEnableChecker = $GbEnableChecker;
+        \GbPlugin\Integration\Observer\RemoveFromCart\RemoveFromCartManager $RemoveFromCartManager
+        ){
+        $this->RemoveFromCartManager = $RemoveFromCartManager;
     }
-
-    /**
+   /**
      * Below is the method that will fire whenever the event runs!
      *
      * @param Observer $observer
@@ -36,12 +28,7 @@ class RemoveFromCart implements ObserverInterface
     public function execute(Observer $observer)
     {
         $item = $observer->getQuoteItem();
-        $manager = new RemoveFromCartManager($item->getProduct(),
-        $this->customerSession,
-        $this->clientKeys,
-        $this->categoryFactory,
-        $this->productFactory,
-        $this->GbEnableChecker);
-        $manager->execute();
+        $this->RemoveFromCartManager->execute($item->getProduct());
     }
+
 }

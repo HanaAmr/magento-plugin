@@ -1,6 +1,8 @@
 <?php
 
 namespace GbPlugin\Integration\Observer\ViewCart;
+use GbPlugin\Integration\Observer\Product\ViewProductManager;
+
 use Exception;
 
 require_once BP . '/vendor/autoload.php';
@@ -14,12 +16,16 @@ class ViewCartManager
     protected $GbEnableChecker;
     protected $cart;
 
-    public function __construct($customerSession,$clientKeys,$GbEnableChecker,$cart
+    public function __construct(   
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $GbEnableChecker,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Cart $cart
     ){
         $this->customerSession = $customerSession;
         $this->clientKeys = $clientKeys;
-        $this->GbEnableChecker= $GbEnableChecker; 
-        $this->cart= $cart; 
+        $this->GbEnableChecker = $GbEnableChecker;
+        $this->cart = $cart;
     }
 
 
@@ -60,7 +66,7 @@ class ViewCartManager
             $logger->info($this->clientKeys->getApiKey());
 
             
-            if ($gbEnable == "1" && $this->clientKeys->getViewCart()== 1) {
+            if ($gbEnable === "1" && $this->clientKeys->getViewCart()== 1) {
                 $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
 
                 $playerRequest = new \Gameball\Models\PlayerRequest();

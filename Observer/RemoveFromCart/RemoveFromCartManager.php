@@ -9,30 +9,34 @@ use Exception;
 class RemoveFromCartManager
 {
     private $product;
-
     protected $customerSession;
     protected $clientKeys;
     protected $categoryFactory;
     protected $productFactory;
     protected $gbEnableChecker;
 
-    public function __construct($product,$customerSession,$clientKeys,$categoryFactory,$productFactory, $gbEnableChecker)
-    {
-        $this->product = $product;
-        $this->customerSession= $customerSession;
+    public function __construct(   
+        \Magento\Customer\Model\Session $customerSession,
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker
+    ){
+        $this->customerSession = $customerSession;
         $this->clientKeys = $clientKeys;
-        $this->categoryFactory=$categoryFactory;
-        $this->productFactory=$productFactory;
+        $this->categoryFactory = $categoryFactory;
+        $this->productFactory = $productFactory;
         $this->gbEnableChecker = $gbEnableChecker;
     }
 
-    public function execute()
+    public function execute($product)
     {
 
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/RemoveFromCartManager.log');
         $logger = new \Zend\Log\Logger();
         $logger->addWriter($writer);
 
+        $this->product = $product;
         $customerId = $this->customerSession->getCustomer()->getId();
 
         if ($customerId) {
@@ -97,7 +101,7 @@ class RemoveFromCartManager
                 $logger->info($this->clientKeys->getApiKey());
 
 
-                if ($gbEnable == "1" && $this->clientKeys->getRemoveFromCart()== 1) {
+                if ($gbEnable === "1" && $this->clientKeys->getRemoveFromCart()== 1) {
                   $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
   
                     $playerRequest = new \Gameball\Models\PlayerRequest();

@@ -2,6 +2,7 @@
 
 $apikey = $block->getAPIKey();
 $customerSession = $block->getCustomerSession();
+$widgetUrl = 'https://assets.gameball.co/widget/js/gameball-init.min.js';
 
 if ($customerSession->isLoggedIn()) {
     $customerId = $customerSession->getCustomerId();  
@@ -11,60 +12,52 @@ if ($customerSession->isLoggedIn()) {
     $joinDate = date('Y-m-d', strtotime($customer->getCreatedAt()));
     
     echo "<script>
-            require(['jquery'], function ($) {
-                window.GbLoadInit = function () {
-                    GbSdk.init({
-                        playerUniqueId: '$customerId',
-                        playerAttributes: {
-                            displayName: '$displayName',
-                            email: '$email',
-                            joinDate: '$joinDate'
-                        },
-                        lang: 'en',
-                        APIKey: '$apikey'
-                    });
-                };
-                document.addEventListener('readystatechange', event => { 
-
-                    if (event.target.readyState === 'complete') {
-                        setTimeout(() => {
-                            let script = document.createElement('script');
-                            script.type = 'text/javascript';
-                            script.src = 'https://assets.gameball.co/uat/widget/js/gameball-init.min.js';
-                            script.defer = true;
-                            document.getElementsByTagName('head')[0].appendChild(script);
-                        }, 5000);
-                    }
+            window.GbLoadInit = function () {
+                GbSdk.init({
+                    playerUniqueId: '$customerId',
+                    playerAttributes: {
+                        displayName: '$displayName',
+                        email: '$email',
+                        joinDate: '$joinDate'
+                    },
+                    lang: 'en',
+                    APIKey: '$apikey'
                 });
-            }
-        );
+            };
+            document.addEventListener('readystatechange', event => { 
+                if (event.target.readyState === 'complete') {
+                    setTimeout(() => {
+                        let script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = '$widgetUrl';
+                        script.defer = true;
+                        document.getElementsByTagName('head')[0].appendChild(script);
+                    }, 10000);
+                }
+            });
     </script>";
 
 } else {
     echo "<script>
-        require(['jquery'], function ($) {
-                window.GbLoadInit = function () {
-                    GbSdk.init({
-                        lang: 'en',
-                        APIKey: '$apikey'
-                    });
-                };
-                document.addEventListener('readystatechange', event => { 
-
-                    if (event.target.readyState === 'complete') {
-                        setTimeout(() => {
-                            let script = document.createElement('script');
-                            script.type = 'text/javascript';
-                            script.src = 'https://assets.gameball.co/uat/widget/js/gameball-init.min.js';
-                            script.defer = true;
-                            document.getElementsByTagName('head')[0].appendChild(script);
-                        }, 5000);
-                    }
+            window.GbLoadInit = function () {
+                GbSdk.init({
+                    lang: 'en',
+                    APIKey: '$apikey'
                 });
-            }
-        );
+            };
+            document.addEventListener('readystatechange', event => { 
+                if (event.target.readyState === 'complete') {
+                    setTimeout(() => {
+                        let script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = '$widgetUrl';
+                        script.defer = true;
+                        document.getElementsByTagName('head')[0].appendChild(script);
+                    }, 10000);
+                }
+            });
     </script>";
 
 }
 
-// echo "<script defer src='https://assets.gameball.co/uat/widget/js/gameball-init.min.js'></script>";
+// echo "<script defer src='$widgetUrl'></script>";

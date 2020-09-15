@@ -16,24 +16,27 @@ class ProductReviewManager
     protected $productFactory;
     protected $gbEnableChecker;
 
-    public function __construct($review,$clientKeys,$categoryFactory,$productFactory, $gbEnableChecker)
-    {
-        $this->review = $review;
+    public function __construct(   
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker 
+    ){
         $this->clientKeys = $clientKeys;
-        $this->categoryFactory=$categoryFactory;
-        $this->productFactory=$productFactory;
+        $this->categoryFactory = $categoryFactory;
+        $this->productFactory = $productFactory;
         $this->gbEnableChecker = $gbEnableChecker;
-       
     }
 
-    public function execute()
+    
+    public function execute($review)
     {
         try {
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/ReviewProduct1.log');
             $logger = new \Zend\Log\Logger();
             $logger->addWriter($writer);
 
-            
+            $this->review = $review;
             $customerId = $this->review->getData('customer_id');
 
             if ($customerId) {
@@ -92,7 +95,7 @@ class ProductReviewManager
                     $logger->info($this->clientKeys->getApiKey());
     
 
-                    if ($gbEnable == "1" && $this->clientKeys->getReview()== 1) {
+                    if ($gbEnable === "1" && $this->clientKeys->getReview()== 1) {
                       $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
       
                         $playerRequest = new \Gameball\Models\PlayerRequest();

@@ -4,43 +4,25 @@ namespace GbPlugin\Integration\Observer\AddToCart;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use GbPlugin\Integration\Observer\AddToCart\AddToCartManager;
 
 class AddToCart implements ObserverInterface
 {
-    protected $customerSession;
-    protected $clientKeys;
-    protected $categoryFactory;
-    protected $gbEnableChecker;
+    protected $AddToCartManager;
 
-    public function __construct(   
-        \Magento\Customer\Model\Session $customerSession,
-        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker 
-    ){
-        $this->customerSession = $customerSession;
-        $this->clientKeys = $clientKeys;
-        $this->categoryFactory = $categoryFactory;
-        $this->gbEnableChecker = $gbEnableChecker;
+    public function __construct(
+        AddToCartManager $AddToCartManager
+    ) {
+        $this->AddToCartManager = $AddToCartManager;
     }
 
     /**
-
      * Below is the method that will fire whenever the event runs!
-
      *
-
      * @param Observer $observer
-
      */
     public function execute(Observer $observer)
     {
-        $manager = new AddToCartManager($observer->getProduct(),
-        $this->customerSession,
-        $this->clientKeys,
-        $this->categoryFactory,
-        $this->gbEnableChecker);
-        $manager->execute();
-
+        $this->AddToCartManager->execute($observer->getProduct());
     }
 }

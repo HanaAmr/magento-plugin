@@ -14,37 +14,37 @@ class PlaceOrderManager
      */
     private $order;
 
-    /**
-     * @var type{Array} vendorsArray
-     * array of all vendors of order items
-     *
-     */
-    private $vendorsArray = array();
     private $httpClientFactory;
     protected $clientKeys;
     protected $categoryFactory;
     protected $productFactory;
     protected $gbEnableChecker;
 
-    public function __construct($order, $httpClientFactory,$clientKeys,$categoryFactory,$productFactory, $gbEnableChecker)
-    {
-        $this->order = $order;
-        $this->httpClientFactory = $httpClientFactory;
-        $this->clientKeys = $clientKeys;
-        $this->categoryFactory=$categoryFactory;
-        $this->productFactory=$productFactory;
-        $this->gbEnableChecker = $gbEnableChecker;
-    }
+    public function __construct(
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory, 
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \GbPlugin\Integration\Observer\Shared\GbEnableChecker $gbEnableChecker 
+        )
+        {
+            $this->httpClientFactory = $httpClientFactory;
+            $this->clientKeys = $clientKeys;
+            $this->categoryFactory= $categoryFactory;
+            $this->productFactory= $productFactory;
+            $this->gbEnableChecker = $gbEnableChecker;
+    
+        }
 
-    public function execute()
+    public function execute($order)
     {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeOrder.log');
         $logger = new \Zend\Log\Logger();
         $logger->addWriter($writer);
-
+        $this->order = $order;
 
         try {
-             if ($this->order->getState() == 'complete' && $this->order->getOrigData('state') != 'complete') {
+             if ($this->order->getState() === 'complete' && $this->order->getOrigData('state') != 'complete') {
                 {   
                 $customerId = $this->order->getData('customer_id');
 
@@ -104,7 +104,7 @@ class PlaceOrderManager
                     $logger->info('gbEnabled');
                     $logger->info($gbEnable);
 
-                    if ($gbEnable == "1" && $this->clientKeys->getPlaceOrder()== 1) {
+                    if ($gbEnable === "1" && $this->clientKeys->getPlaceOrder()== 1) {
                         $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
         
                         $playerRequest = new \Gameball\Models\PlayerRequest();
@@ -135,13 +135,13 @@ class PlaceOrderManager
                 }
             }
         }
-            else if ($this->order->getState() == 'new') {
+            else if ($this->order->getState() === 'new') {
                 $couponCode = $this->order->getData('coupon_code');
 
                 if ($couponCode) {
 
                     $client = $this->httpClientFactory->create();
-                    $client->setUri('https://gb-api.azurewebsites.net/api/v1.0/Integrations/DiscountCode');
+                    $client->setUri('https://api.gameball.co/api/v1.0/Integrations/DiscountCode');
                     $client->setMethod(\Zend_Http_Client::PUT);
                     $client->setHeaders(\Zend_Http_Client::CONTENT_TYPE, 'application/json');
                     $client->setHeaders('Accept', 'application/json');
@@ -174,7 +174,7 @@ class PlaceOrderManager
     {
         $discountAmount = $this->order->getDiscountAmount();
 
-        if ($discountAmount == '0') {
+        if ($discountAmount === '0') {
             $discounted = 0;
         } else {
             $discounted = 1;

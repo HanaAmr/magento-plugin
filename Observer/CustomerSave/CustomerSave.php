@@ -4,25 +4,21 @@ namespace GbPlugin\Integration\Observer\CustomerSave;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use GbPlugin\Integration\Observer\CustomerSave\CustomerSaveManager;
 
 class CustomerSave implements ObserverInterface
 {
 
-    protected $clientKeys;
-    protected $customerModel;
+    protected $CustomerSaveManager;
 
     public function __construct(   
-        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-        \Magento\Customer\Model\Customer $customerModel
+        CustomerSaveManager $CustomerSaveManager
     ){
-        $this->clientKeys = $clientKeys;
-        $this->customerModel = $customerModel;
-
+        $this->CustomerSaveManager = $CustomerSaveManager;
     }
 
     public function execute(Observer $observer)
     {
-        $manager = new CustomerSaveManager($observer->getData('customer_data_object'),$this->clientKeys,$this->customerModel);
-        $manager->execute();
+        $this->CustomerSaveManager->execute($observer->getData('customer_data_object'));
     }
 }

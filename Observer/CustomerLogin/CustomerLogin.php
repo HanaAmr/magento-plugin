@@ -4,23 +4,22 @@ namespace GbPlugin\Integration\Observer\CustomerLogin;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use GbPlugin\Integration\Observer\CustomerLogin\CustomerLoginManager;
+
 
 class CustomerLogin implements ObserverInterface
 {
-    protected $clientKeys;
-    protected $customerModel;
-     
+
+    protected $CustomerLoginManager;
+
     public function __construct(   
-        \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-        \Magento\Customer\Model\Customer $customerModel
+        CustomerLoginManager $CustomerLoginManager
     ){
-        $this->clientKeys = $clientKeys;
-        $this->customerModel = $customerModel;
+        $this->CustomerLoginManager = $CustomerLoginManager;
     }
 
     public function execute(Observer $observer)
     {
-        $manager = new CustomerLoginManager($observer->getEvent()->getCustomer(),$this->clientKeys,$this->customerModel);
-        $manager->execute();
+        $this->CustomerLoginManager->execute($observer->getEvent()->getCustomer());
     }
 }

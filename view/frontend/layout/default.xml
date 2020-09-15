@@ -5,11 +5,11 @@
     </head> -->
     
     <body>
-        <referenceContainer name="footer">
+        <referenceContainer name="root">
             <block class="GbPlugin\Integration\Block\LoadAPIKey" name="load_apikey" template="GbPlugin_Integration::LoadAPIKey.phtml" cacheable="false"/>
         </referenceContainer>
-        <referenceContainer name="checkout.header.container">
+        <!-- <referenceContainer name="checkout.header.container">
             <block class="GbPlugin\Integration\Block\LoadAPIKey" name="checkout_load_apikey" template="GbPlugin_Integration::CheckoutLoadAPIKey.phtml" cacheable="false"/>
-        </referenceContainer>
+        </referenceContainer> -->
     </body>
 </page>

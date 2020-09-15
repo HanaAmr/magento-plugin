@@ -6,6 +6,9 @@ namespace GbPlugin\Integration\Observer\RegisterSuccess;
 require_once BP . '/vendor/autoload.php';
 
 use Exception;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\Session\SessionManagerInterface;
 
 class RegisterSuccessManager
 {
@@ -20,22 +23,24 @@ class RegisterSuccessManager
 
 
     public function __construct(
-        $customer, $customerRepositoryInterface, $coreSession, $request,$clientKeys,$customerModel
+    CustomerRepositoryInterface $customerRepositoryInterface, 
+    SessionManagerInterface $coreSession, 
+    Http $request,
+    \GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
+    \Magento\Customer\Model\Customer $customerModel
     ) {
-        $this->customer = $customer;
         $this->_customerRepositoryInterface = $customerRepositoryInterface;
         $this->_coreSession = $coreSession;
         $this->request = $request;
         $this->clientKeys = $clientKeys;
         $this->customerModel = $customerModel;
-
     }
 
-    public function execute()
+    public function execute($customer)
     {
         try
         {
-            
+            $this->customer = $customer;
             //************************* Getting values *********************************
 
             $customerEmail = $this->customer->getEmail();

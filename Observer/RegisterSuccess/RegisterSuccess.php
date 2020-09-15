@@ -2,33 +2,23 @@
 
 namespace GbPlugin\Integration\Observer\RegisterSuccess;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Framework\App\Request\Http;
+use GbPlugin\Integration\Observer\RegisterSuccess\RegisterSuccessManager;
+
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Session\SessionManagerInterface;
 
 class RegisterSuccess implements ObserverInterface
 {
-    private $customerRepositoryInterface;
-    private $coreSession;
-    private $request;
-    protected $clientKeys;
-    protected $customerModel;
+    protected $RegisterSuccessManager;
 
-    public function __construct(CustomerRepositoryInterface $customerRepositoryInterface, SessionManagerInterface $coreSession, Http $request,\GbPlugin\Integration\Observer\Shared\ClientkeysTable $clientKeys,
-    \Magento\Customer\Model\Customer $customerModel)
+
+    public function __construct(RegisterSuccessManager $RegisterSuccessManager)
     {
-        $this->customerRepositoryInterface = $customerRepositoryInterface;
-        $this->coreSession = $coreSession;
-        $this->request = $request;
-        $this->clientKeys = $clientKeys;
-        $this->customerModel = $customerModel;
+        $this->RegisterSuccessManager = $RegisterSuccessManager;
     }
 
     public function execute(Observer $observer)
     {
-        $manager = new RegisterSuccessManager($observer->getEvent()->getData('customer'), $this->customerRepositoryInterface, $this->coreSession, $this->request,$this->clientKeys,$this->customerModel);
-        $manager->execute();
+        $this->RegisterSuccessManager->execute($observer->getEvent()->getData('customer'));
     }
 }
