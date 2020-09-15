@@ -3,7 +3,6 @@
 namespace GbPlugin\Integration\Observer\PlaceOrder;
 
 require_once BP . '/vendor/autoload.php';
-
 use Exception;
 
 class PlaceOrderManager
@@ -141,7 +140,7 @@ class PlaceOrderManager
                 if ($couponCode) {
 
                     $client = $this->httpClientFactory->create();
-                    $client->setUri('https://api.gameball.co/api/v1.0/Integrations/DiscountCode');
+                    $client->setUri('https://gb-api.azurewebsites.net/api/v1.0/Integrations/DiscountCode');
                     $client->setMethod(\Zend_Http_Client::PUT);
                     $client->setHeaders(\Zend_Http_Client::CONTENT_TYPE, 'application/json');
                     $client->setHeaders('Accept', 'application/json');

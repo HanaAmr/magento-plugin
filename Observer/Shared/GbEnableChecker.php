@@ -16,7 +16,7 @@ class GbEnableChecker
     }
     public function check()
     {
-        $url = 'https://api.gameball.co/api/v1.0/Bots/BotSettings';
+        $url = 'https://gb-api.azurewebsites.net/api/v1.0/Bots/BotSettings';
         $headers = ["APIKey" => $this->clientKeys->getApiKey()];
 
         $this->curl->setHeaders($headers);
