@@ -4,6 +4,7 @@
     "description":"Gameball Extension - Gamification, Customer Loyalty and Retention ",
     "version":"1.0.0",
     "minimum-stability": "dev",
+    "license": "MIT",
     "require": {
         "gameball/gameball-php": "dev-master"
     },
