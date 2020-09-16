@@ -30,9 +30,7 @@ class ViewProductManager
     public function execute($product)
     {
         try {
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/ViewProduct.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);                
+              
            
             $this->product = $product;
             $customerId = $this->customerSession->getCustomer()->getId();
@@ -66,40 +64,6 @@ class ViewProductManager
                 $manufacturer=$this->product->getAttributeText('manufacturer');
                 $gbEnable = $this->gbEnableChecker->check();
 
-                $logger->info('customer viewed this product!');
-                $logger->info('product Id');
-                $logger->info($productId);
-
-                $logger->info('customer Id');
-                $logger->info($customerId);
-
-                $logger->info('manufacturer');
-                $logger->info($manufacturer);
-
-                $logger->info('name !');
-                $logger->info($productName);
-
-                $logger->info('qty');
-                $logger->info($productStock);
-
-                $logger->info('product Price');
-                $logger->info($productPrice);
-
-                $logger->info('product weight');
-                $logger->info($productWeight);
-
-                $logger->info('product cat');
-                $logger->info($categoryArray);
-
-                $logger->info('gbEnabled');
-                $logger->info($gbEnable);
-
-                $logger->info('special Price');
-                $logger->info($specialPrice);
-
-                $logger->info('api key');
-                $logger->info($this->clientKeys->getApiKey());
-
 
                 if ($gbEnable === "1" && $this->clientKeys->getViewProduct()== 1) {
                     $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
@@ -129,9 +93,7 @@ class ViewProductManager
 
                     $res = $gameball->event->sendEvent($eventRequest);
 
-                    $logger->info('Return Code ');
-                    $logger->info($res->body);
-                    $logger->info($res->code);
+
                 }
             }
         } catch (Exception $e) {

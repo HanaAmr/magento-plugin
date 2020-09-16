@@ -3,6 +3,7 @@
 namespace GbPlugin\Integration\Observer\PlaceOrder;
 
 require_once BP . '/vendor/autoload.php';
+
 use Exception;
 
 class PlaceOrderManager
@@ -37,9 +38,7 @@ class PlaceOrderManager
 
     public function execute($order)
     {
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeOrder.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
+
         $this->order = $order;
 
         try {
@@ -84,24 +83,6 @@ class PlaceOrderManager
                     
                     $gbEnable = $this->gbEnableChecker->check();
 
-                    $logger->info('Order Completed Sucessfully !');
-                    $logger->info('Order Id');
-                    $logger->info($orderId);
-                    $logger->info('Customer Id');
-                    $logger->info($customerId);
-                    $logger->info('order Amount');
-                    $logger->info($amount);
-                    $logger->info('Categories Array');
-                    $logger->info($categoryArray);
-                    $logger->info('Manufacturer Array');
-                    $logger->info($manufacturersArray);
-                    $logger->info('discounted flag');
-                    $logger->info($discounted);
-                    $logger->info('weight');
-                    $logger->info($weight);
-
-                    $logger->info('gbEnabled');
-                    $logger->info($gbEnable);
 
                     if ($gbEnable === "1" && $this->clientKeys->getPlaceOrder()== 1) {
                         $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
@@ -126,9 +107,6 @@ class PlaceOrderManager
                         $actionRequest = \Gameball\Models\ActionRequest::factory($playerRequest, $eventRequest, $pointsTransaction);
                         $res = $gameball->action->sendAction($actionRequest);
 
-                        $logger->info('Return Code ');
-                        $logger->info($res->body);
-                        $logger->info($res->code);
 
                     }
                 }
@@ -140,7 +118,7 @@ class PlaceOrderManager
                 if ($couponCode) {
 
                     $client = $this->httpClientFactory->create();
-                    $client->setUri('https://gb-api.azurewebsites.net/api/v1.0/Integrations/DiscountCode');
+                    $client->setUri('https://api.gameball.co/api/v1.0/Integrations/DiscountCode');
                     $client->setMethod(\Zend_Http_Client::PUT);
                     $client->setHeaders(\Zend_Http_Client::CONTENT_TYPE, 'application/json');
                     $client->setHeaders('Accept', 'application/json');
@@ -152,14 +130,12 @@ class PlaceOrderManager
 
                     $responseBody = $client->request()->getBody();
                     $bodyAsArray = json_decode($responseBody, true);
-                    $logger->info('Put request sent with body:');
-                    $logger->info($bodyAsArray);
+                  
                 }
 
             }
 
         } catch (Exception $e) {
-            $logger->info($e);
         }
     }
 

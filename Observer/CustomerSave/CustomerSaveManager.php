@@ -24,10 +24,6 @@ class CustomerSaveManager
     {
         try {
             $this->customer = $customer;
-
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/CustomerSave.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
            
             $customerEmail = $this->customer->getEmail();
             $customerId = $this->customer->getId();
@@ -39,17 +35,6 @@ class CustomerSaveManager
             if($adressesCollection) {$telephone = $adressesCollection->getFirstitem()->getTelephone();}            $customerDisplayName = $customerFirstName . ' ' . $customerLastName;
             $gender = $this->getGenderChar($this->customer->getgender());
 
-            $logger->info('3 ' . $customerEmail);
-            $logger->info('4 ' . $customerId);
-            $logger->info('5 ' . $customerFirstName);
-            $logger->info('6 ' . $customerLastName);
-            $logger->info('7 ' . $createdAt);
-            $logger->info('8 ' . $telephone);
-            $logger->info('9 ' . $customerDisplayName);
-            $logger->info('10 ' . $gender);
-
-            $logger->info('api key');
-            $logger->info($this->clientKeys->getApiKey());
 
 
             $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
@@ -67,8 +52,6 @@ class CustomerSaveManager
 
             $playerRequest = \Gameball\Models\PlayerRequest::factory($playerUniqueID, $playerAttributes);
             $res = $gameball->player->initializePlayer($playerRequest);
-
-            $logger->info($res->body);
 
         } catch (Exception $e) {
         }

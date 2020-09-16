@@ -3,6 +3,7 @@
 namespace GbPlugin\Integration\Observer\AddToCart;
 
 require_once BP . '/vendor/autoload.php';
+
 use Exception;
 
 class AddToCartManager
@@ -29,10 +30,7 @@ class AddToCartManager
     public function execute($product)
     {
         try {
-            
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/AddToCartt.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
+                 
 
             $this->product = $product;
             $customerId = $this->customerSession->getCustomer()->getId();
@@ -61,32 +59,7 @@ class AddToCartManager
                 $productWeight = $this->product->getData('weight');
                 $gbEnable = $this->GbEnableChecker->check();
 
-                $logger->info('product Id');
-                $logger->info($productId);
 
-                $logger->info('customer Id');
-                $logger->info($customerId);
-
-                $logger->info('product Price');
-                $logger->info($productPrice);
-
-                $logger->info('product weight');
-                $logger->info($productWeight);
-
-                $logger->info('product cat');
-                $logger->info($categoryArray);
-
-                $logger->info('product manufacturer');
-                $logger->info($manufacturer);
-
-                $logger->info('special Price');
-                $logger->info($specialPrice);
-
-                $logger->info('gbEnabled');
-                $logger->info($gbEnable);
-
-                $logger->info('api key');
-                $logger->info($this->clientKeys->getApiKey());
 
                 if ($gbEnable == "1" && $this->clientKeys->getAddToCart() == 1) {
                     $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
@@ -120,9 +93,7 @@ class AddToCartManager
 
                     $res = $gameball->event->sendEvent($eventRequest);
 
-                    $logger->info('Return Code ');
-                    $logger->info($res->code);
-                    $logger->info($res->body);
+                   
                 }
             }
         } catch (Exception $e) {

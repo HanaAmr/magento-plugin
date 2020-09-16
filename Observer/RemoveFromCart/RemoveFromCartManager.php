@@ -32,9 +32,6 @@ class RemoveFromCartManager
     public function execute($product)
     {
 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/RemoveFromCartManager.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
 
         $this->product = $product;
         $customerId = $this->customerSession->getCustomer()->getId();
@@ -46,7 +43,6 @@ class RemoveFromCartManager
             $productPrice = $this->product->getPrice();
             $specialPrice = $this->setSpecialPrice();
 
-            $logger->info('category array');
             $productData = $this->productFactory->create()->load($productId);
             $categoryIds = $productData->getData('category_ids');
             $manufacturer=$productData->getAttributeText('manufacturer');
@@ -72,34 +68,6 @@ class RemoveFromCartManager
             try
             {
                 $gbEnable = $this->gbEnableChecker->check();
-
-                $logger->info('product Id');
-                $logger->info($productId);
-
-                $logger->info('customer Id');
-                $logger->info($customerId);
-
-                $logger->info('product weight');
-                $logger->info($productWeight);
-
-                $logger->info('product cat');
-                $logger->info($categoryArray);
-
-                $logger->info('special Price');
-                $logger->info($specialPrice);
-
-                $logger->info('product Manufacturer');
-                $logger->info($manufacturer);
-
-                $logger->info('gbEnabled');
-                $logger->info($gbEnable);
-
-                $logger->info('product Price');
-                $logger->info($productPrice);
-
-                $logger->info('api key');
-                $logger->info($this->clientKeys->getApiKey());
-
 
                 if ($gbEnable === "1" && $this->clientKeys->getRemoveFromCart()== 1) {
                   $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
@@ -127,9 +95,6 @@ class RemoveFromCartManager
 
                     $res = $gameball->event->sendEvent($eventRequest);
 
-                    $logger->info('Return Code ');
-                    $logger->info($res->code);
-                    $logger->info($res->body);
                 }
             } catch (Exception $e) {
             }

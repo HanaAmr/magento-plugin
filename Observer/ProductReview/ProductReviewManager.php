@@ -32,9 +32,6 @@ class ProductReviewManager
     public function execute($review)
     {
         try {
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/ReviewProduct1.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
 
             $this->review = $review;
             $customerId = $this->review->getData('customer_id');
@@ -70,31 +67,8 @@ class ProductReviewManager
                     $manufacturer=$product->getAttributeText('manufacturer');
                     $gbEnable = $this->gbEnableChecker->check();
                     
-                    $logger->info('prod id');
-                    $logger->info($productId);
 
-                    $logger->info('product Id');
-                    $logger->info($productId);
-
-                    $logger->info('customer Id');
-                    $logger->info($customerId);
-
-                    $logger->info('product weight');
-                    $logger->info($productWeight);
-
-                    $logger->info('manufacturer');
-                    $logger->info($manufacturer);
-
-                    $logger->info('product cat');
-                    $logger->info($categoryArray);
-
-                    $logger->info('gbEnabled');
-                    $logger->info($gbEnable);
-
-                    $logger->info('api key');
-                    $logger->info($this->clientKeys->getApiKey());
     
-
                     if ($gbEnable === "1" && $this->clientKeys->getReview()== 1) {
                       $gameball = new \Gameball\GameballClient($this->clientKeys->getApiKey(), $this->clientKeys->getTransactionKey());
       
@@ -120,8 +94,6 @@ class ProductReviewManager
 
                         $res = $gameball->event->sendEvent($eventRequest);
 
-                        $logger->info('Return Code ');
-                        $logger->info($res->code);
                     }
                 }
             }

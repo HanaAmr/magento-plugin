@@ -79,45 +79,11 @@ class RegisterSuccessManager
                 // $value =$this->_coreSession->unsGameballReferralCode();
                 $playerCode = $referral_code;
                 $res = $gameball->referral->createReferral($playerCode, $playerRequest);
-                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/testSuccess.log');
-                $logger = new \Zend\Log\Logger();
-                $logger->addWriter($writer);
-                $logger->info($res->body);
+     
             } else {
                 $res = $gameball->player->initializePlayer($playerRequest);
-                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/testSuccess.log');
-                $logger = new \Zend\Log\Logger();
-                $logger->addWriter($writer);
-                $logger->info($res->body);
+      
             }
-
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/CustomerRegisterEvent.log');
-            $logger = new \Zend\Log\Logger();
-
-            $logger->addWriter($writer);
-            $logger->info('Customer Data !');
-            $logger->info('Customer Id');
-            $logger->info($customerId);
-            $logger->info('Customer Email');
-            $logger->info($customerEmail);
-            $logger->info('display name ');
-            $logger->info($customerDisplayName);
-            $logger->info('customerFisrtName ');
-            $logger->info($customerFirstName);
-            $logger->info('customerlastName ');
-            $logger->info($customerLastName);
-            $logger->info('gender ');
-            $logger->info($gender);
-            $logger->info('createdAt ');
-            $logger->info($createdAt);
-            $logger->info('telephone ');
-            $logger->info($telephone);
-            $logger->info('Referral_code ');
-            $logger->info($referral_code);
-
-            $logger->info('api key');
-            $logger->info($this->clientKeys->getApiKey());
-
 
         } catch (Exception $e) {
         }
