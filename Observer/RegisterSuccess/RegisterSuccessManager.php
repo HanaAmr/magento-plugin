@@ -76,7 +76,6 @@ class RegisterSuccessManager
                 $customerNew = $customerData->getDataModel();
                 $customerNew->setCustomAttribute('referral_code', $referral_code);
                 $this->_customerRepositoryInterface->save($customerNew);
-                // $value =$this->_coreSession->unsGameballReferralCode();
                 $playerCode = $referral_code;
                 $res = $gameball->referral->createReferral($playerCode, $playerRequest);
      

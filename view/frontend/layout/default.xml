@@ -1,15 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <!-- <head>
-    <script src="GbPlugin_Integration::js/gb-widget-init.js"/>
-    </head> -->
-    
     <body>
         <referenceContainer name="root">
             <block class="GbPlugin\Integration\Block\LoadAPIKey" name="load_apikey" template="GbPlugin_Integration::LoadAPIKey.phtml" cacheable="false"/>
         </referenceContainer>
-        <!-- <referenceContainer name="checkout.header.container">
-            <block class="GbPlugin\Integration\Block\LoadAPIKey" name="checkout_load_apikey" template="GbPlugin_Integration::CheckoutLoadAPIKey.phtml" cacheable="false"/>
-        </referenceContainer> -->
     </body>
 </page>
