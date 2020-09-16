@@ -1,6 +1,6 @@
 
 # Gameball Magento Plugin
-> The Gameball Magento Plugin allows stores on Magento platform to integrate with gameball by simply requiring its extension
+> This Gameball Magento Plugin allows stores on magento platform to integrate with gameball by requiring its package using composer 
 
 ## Table of contents
 * [Extension installation](#extension-installation)
