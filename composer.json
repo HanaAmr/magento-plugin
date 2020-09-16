@@ -6,5 +6,11 @@
     "minimum-stability": "dev",
     "require": {
         "gameball/gameball-php": "dev-master"
+    },
+    "autoload": {
+      "files": [ "registration.php" ],
+      "psr-4": {
+        "GbPlugin\\Integration\\": ""
+      }
     }
 }
